@@ -4,7 +4,7 @@ import pandas as pd
 from playwright.sync_api import sync_playwright, TimeoutError
 
 def baixar_imagem_solopes(codigo: str, nome_arquivo: str) -> bool:
-    url_base = "https://catalogo.solopes.com.br/solopes"
+    url_base = "https://buscanarede.com.br/grazzimetal"
 
     try:
         with sync_playwright() as p:
@@ -32,12 +32,12 @@ def baixar_imagem_solopes(codigo: str, nome_arquivo: str) -> bool:
 
             print(f"Imagem encontrada: {img_url}")
 
-            os.makedirs("solopes/images", exist_ok=True)
+            os.makedirs("grazzimetal/images", exist_ok=True)
 
             response = requests.get(img_url, timeout=15)
             response.raise_for_status()
 
-            with open(f"solopes/images/{nome_arquivo}.jpg", "wb") as f:
+            with open(f"grazzimetal/images/{nome_arquivo}.jpg", "wb") as f:
                 f.write(response.content)
 
             browser.close()
@@ -55,7 +55,7 @@ def baixar_imagem_solopes(codigo: str, nome_arquivo: str) -> bool:
 
 
 
-local_planilha = rf'solopes\plan.xlsx'
+local_planilha = rf'grazzimetal\plan.xlsx'
 planilha = pd.read_excel(local_planilha)
 codigos = planilha['codigo']
 qtd_codigos = len(codigos)
@@ -65,7 +65,7 @@ indice_ok = 0
 indice_erros = 0
 for cod in codigos:
     print('-' * 120)
-    nome = f'SOLOPES-{cod}'
+    nome = f'GRAZZIMETAL-{cod}'
     if baixar_imagem_solopes(codigo=cod, nome_arquivo=nome):
         indice_ok+=1
         print(f'Baixado com sucesso: {indice_ok}/{qtd_codigos}')
